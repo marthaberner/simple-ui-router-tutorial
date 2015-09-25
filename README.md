@@ -11,7 +11,21 @@
 Here is a [blog post](http://www.jonahnisenson.com/angular-js-ui-router-redirect-after-login-to-requested-url/)
 you can checkout for help. Try and modify the version in the blog and implement
 something simpler here.
-* Be able to spin up a basic modal using [angular-modal-service](http://www.dwmkerr.com/the-only-angularjs-modal-service-youll-ever-need/) and bootstrap
+* Be able to spin up a basic modal using (unrelated but fun!) [angular-modal-service](http://www.dwmkerr.com/the-only-angularjs-modal-service-youll-ever-need/) and bootstrap
+
+#### What is UI-Router?
+
+UI-Router is a routing framework for AngularJS. It provides a different
+approach than `ngRoute` in that it changes your application views based on the `state`
+of the application and not just the route URL. The Angular ngRoute module is organized
+around __URL routes__, while UI-Router is organized around __state__, which may
+optionally have routes, as well as other behavior, attached. Ok, but who cares, right?
+
+Well, as an application gets more complex, you might want to nest some of your
+views, and it turns out UI-Router does this in a much simpler and more powerful way
+than ngRoute. UI-Router has become the sort of "go to" router for Angular devs.
+
+But don't take my word for it, try it out for yourself!
 
 ## Create a module and add ui-router as a dependency
 
@@ -35,20 +49,6 @@ your app gets more complex. Since it's your first stab at `AngularUI Router`, we
 going to implement it without all the noise of a complex app so that you get a clear
 look at how it works. But first, let's take a minute to explore _why_ you might
 choose `UI Router` over `ngRoute`.
-
-#### What is UI-Router?
-
-AngularUI Router is a routing framework for AngularJS. It provides a different
-approach than `ngRoute` in that it changes your application views based on the M`state`
-of the application and not just the route URL. The Angular ngRoute module is organized
-around __URL routes__, while UI-Router is organized around __state__, which may
-optionally have routes, as well as other behavior, attached. Ok, but who cares, right?
-
-Well, as an application gets more complex, you might want to nest some of your
-views, and it turns out UI-Router does this in a much simpler and more powerful way
-than ngRoute. UI-Router has become the sort of "go to" router for Angular devs.
-
-But don't take my word for it, try it out for yourself!
 
 #### Getting Wired Up
 
