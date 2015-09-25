@@ -4,8 +4,14 @@
 * Be able to wire up UI-Router
 * Be able to display nested views using ui-router
 * Be able to implement authorization using ui-router
+
+##### Stretch objectives if you get through the first 3
+
 * Be able to redirect to originally requested url after authorization
-* Be able to spin up a basic modal using angular-modal-service and bootstrap
+Here is a [blog post](http://www.jonahnisenson.com/angular-js-ui-router-redirect-after-login-to-requested-url/)
+you can checkout for help. Try and modify the version in the blog and implement
+something simpler here.
+* Be able to spin up a basic modal using [angular-modal-service](http://www.dwmkerr.com/the-only-angularjs-modal-service-youll-ever-need/) and bootstrap
 
 ## Create a module and plug in ui-router
 
@@ -113,7 +119,7 @@ and `<h1>What about it??</h1>` using the `template` property instead of `templat
 
 Also, we don't even need to add a controller yet, so skip it! Only write code you need.
 
-#### Nesting views
+#### Nesting Views
 
 Let's add some partials to the mix and dive in a little deeper.
 
@@ -182,3 +188,57 @@ By now, your user should be able to click two different buttons from the about p
 that each display a different list of values. In this case, Harry Potter
 characters or Lord of the Rings characters. Your urls should be `/#/about/potter`
 and `/#/about/rings` (or whatever you named your states) respectively.
+
+#### Using UI Router's Authentication Property
+
+Sometimes, we want to restrict certain routes to certain users. While slightly
+more complicated that nested routing, UI Router makes this pretty painless as well.
+
+##### 1. Let's start by adding the `authenticate` property to our `about` route.
+
+```
+.state('about', {
+  url: '/about',
+  templateUrl: 'partials/about.html',
+  authenticate: true
+})
+```
+
+##### 2. Create a simple authentication service
+
+Let's add a simple authentication service to our app. In this case, we're just
+going to create a simple function that picks a number between 0 and 10 and if the
+number is greater the 5 the person is authenticated. Imagine though, in a real
+scenario, your service would do something like check if the user is logged in etc.
+
+```
+mkdir services
+touch services/authentication.js
+```
+
+Then add the following to `authentication.js`
+(Don't forget to include your new `js` file in `index.html`!)
+
+```
+app.factory('AuthService', function () {
+  return {
+    isAuthenticated: function () {
+      var num = Math.floor((Math.random() * 10) + 1);
+      return num > 5;
+    }
+  }
+})
+```
+
+###### We're not going to get into services vs factories here, but you'll see code like this all over the place.
+
+##### 3. Tying it together using UI Router
+
+We could wrap this next part up in tidy directive, but let's just put it right in
+our `app.js` to keep it simple.
+
+See if you can figure out this next part on your own by checking out the very last
+bit in this [blog post](https://medium.com/@mattlanham/authentication-with-angularjs-4e927af3a15f).
+All you need is the last part, you're 80% there!
+
+###### Pst! If you're super stuck, checkout the solution branch!
