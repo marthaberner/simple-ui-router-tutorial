@@ -1,5 +1,7 @@
 ## Objectives
 
+
+* Be able to wire up UI-Router
 * Be able to display nested views using ui-router
 * Be able to implement authorization using ui-router
 * Be able to redirect to originally requested url after authorization
@@ -48,10 +50,124 @@ But don't take my word for it, try it out for yourself! Let's go to the
 1. Add the [cdn](http://cdnjs.com/libraries/angular-ui-router) to your index file.
 2. Add `ui.router` to your module's list of dependencies
 3. Instead of using `ng-view` to tell our app where to insert our partials, we're
-going to use `ui-view`. So go add that where you want your partials to display.
+going to use the `ui-view` directive.
+4. In `index.html`, replace the `{{ 1 + 3 }}` with `<div ui-view></div>`.
 
-Right now, your index file should look something like this:
+Check your console and confirm that you don't have any errors.
+
+Right now, the body of your `index.html` file should look something like this:
+
+```
+// index.html
+
+<body>
+  <nav class="navbar navbar-inverse" role="navigation">
+    <ul class="nav navbar-nav">
+        <li><a ui-sref="home">Home</a></li>
+        <li><a ui-sref="about">About</a></li>
+    </ul>
+  </nav>
+  <div class="container">
+    <div ui-view></div>
+  </div>
+  <script src="http://code.angularjs.org/1.2.13/angular.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
+  <script src="/js/app.js"></script>
+</body>
 
 ```
 
+Your `app.js` file should look like this:
+
 ```
+var app = angular.module("not-angry-angular", ['ui.router'])
+```
+
+#### Using ui-sref to link to different states
+
+You may have noticed this already, but if you haven't, go checkout the anchor links
+in our navigation. This is how we get to use UI-Router's __state__. Using the `ui-sref`
+directive allows us to declare what _state_ we want to link to, rather than an explicit url.
+In our two links we've assigned the __Home__ link to the __home__ state and the
+__About__ link to the __about__ state. It's important to note that the two labels do
+not _have_ to have the same name, it just so happens that in this case this is the most obvious,
+straight forward approach.
+
+As long as the state declared in the `ui-sref` directive has a corresponding url, an `href`
+attribute will be auto-generated and added to the anchor tag. Right now, that's one of
+the things we're missing. Let's go take care of it.
+
+#### Bringing it all together using $stateProvider
+
+What we're about to do next looks is almost exactly the same as how you've been
+using ngRoute. With that in mind, where would you go to start hooking up some routes?
+
+Instead of injecting `$routeProvider` into our `config` callback, we're going to inject
+`$stateProvider`. Additionally, we're going to add a `state` property to our route.
+
+Go to step 5 in the [docs](https://github.com/angular-ui/ui-router#get-started).
+Apply what you see there and add the two routes we've already added to our navigation.
+
+Instead of rendering templates though, just render `<h1>You did it! You're home!</h1>`
+and `<h1>What about it??</h1>` using the `template` property instead of `templateUrl`.
+
+Also, we don't even need to add a controller yet, so skip it! Only write code you need.
+
+#### Nesting views
+
+Let's add some partials to the mix and dive in a little deeper.
+
+```
+mkdir partials
+touch partials/about.html
+touch partials/home.html
+touch partials/list.html
+```
+Now, using `templateUrl` update your routes so they render a partial instead
+of just the simple html string.
+
+##### Using dot notation to define a nested state and render nested templates
+
+We can use UI Router's state attribute to define nested states. For example, what
+if we want to have a links on our About page that display different information?
+Turns out it's really easy. It's all here in step 5 in the [docs](https://github.com/angular-ui/ui-router#get-started) and be as simple or
+complex as you want it to be. I'll give you the simple version here and you
+can read the docs to explore more complex scenarios.
+
+1. Add a `Things` navigation link to your About page using `ui-sref`. Here your
+state will be nested, so you can use the dot notation to say so. `.things`
+
+2. Add a nested state to your route and render `list.html`
+ - Don't just copy and paste. Take a minute to actually read the code below and understand what's going on
+
+```
+.state('about.things', {
+  url: "/things",
+  templateUrl: 'partials/list.html',
+  controller: function($scope) {
+        $scope.list = [
+        "Draco Malfoy",
+        "Ernie Macmillan",
+        "Irma Pince",
+        "Rufus Scrimgeour"
+        ];
+      }
+  })
+
+```
+See what I did there? I was able to declare a variable on my list $scope called
+`list` and set it's value to an array of values. I could also set the controller
+value to some named controller if I needed to, but I don't need to so I'm keeping
+simple.
+
+What we're going to do here is render the same `list.html` template but display
+different lists depending on which button is clicked.
+
+Now, in `list.html` use `ng-repeat` to iterate throug the list and display the names.
+
+Ok, go check your view and confirm that everything is working as it should. The
+user should be able to click a link or button and see the list of values displayed.
+Click around your app and confirm that the other routes are still working.
+
+Ok, now go do that again, but add a new link or button that displays a different
+list but still renders the same `list.html` template. You got this!
