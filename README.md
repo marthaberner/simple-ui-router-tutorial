@@ -163,11 +163,22 @@ simple.
 What we're going to do here is render the same `list.html` template but display
 different lists depending on which button is clicked.
 
-Now, in `list.html` use `ng-repeat` to iterate throug the list and display the names.
+Now, in `list.html` use `ng-repeat` to iterate through the list and display the names.
 
 Ok, go check your view and confirm that everything is working as it should. The
 user should be able to click a link or button and see the list of values displayed.
 Click around your app and confirm that the other routes are still working.
 
 Ok, now go do that again, but add a new link or button that displays a different
-list but still renders the same `list.html` template. You got this!
+list but still renders the same `list.html` template.
+
+You can use this list if you want: `["Frodo Baggins", "Peregrin Took", "Sauron", "Gollum", "Aragorn"]`
+
+You got this!
+
+---
+
+By now, your user should be able to click two different buttons from the about page
+that each display a different list of values. In this case, Harry Potter
+characters or Lord of the Rings characters. Your urls should be `/#/about/potter`
+and `/#/about/rings` (or whatever you named your states) respectively.

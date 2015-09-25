@@ -17,4 +17,11 @@ app.config(function ($stateProvider) {
             $scope.list = ["Draco Malfoy", "Ernie Macmillan", "Irma Pince", "Rufus Scrimgeour "];
           }
       })
+      .state('about.rings', {
+        url: "/rings",
+        templateUrl: 'partials/list.html',
+        controller: function($scope) {
+              $scope.list = ["Frodo Baggins", "Peregrin Took", "Sauron", "Gollum", "Aragorn"];
+            }
+        })
 })
