@@ -13,7 +13,7 @@ you can checkout for help. Try and modify the version in the blog and implement
 something simpler here.
 * Be able to spin up a basic modal using [angular-modal-service](http://www.dwmkerr.com/the-only-angularjs-modal-service-youll-ever-need/) and bootstrap
 
-## Create a module and plug in ui-router
+## Create a module and add ui-router as a dependency
 
 Right now, all you've got is a basic Angular app. We haven't even created our first
 module yet. Let's do that real quick, this shouldn't be new to you.
