@@ -214,8 +214,8 @@ number is 3 or 7 the person is authenticated. Imagine though, in a real
 scenario, your service would do something like check if the user is logged in etc.
 
 ```
-mkdir services
-touch services/authentication.js
+mkdir js/services
+touch js/services/authentication.js
 ```
 
 Then add the following to `authentication.js`
