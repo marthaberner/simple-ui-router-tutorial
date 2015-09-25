@@ -3,7 +3,7 @@
 
 * Be able to wire up UI-Router
 * Be able to display nested views using ui-router
-* Be able to implement authorization using ui-router
+* Be able to implement authentication using ui-router
 
 ##### Stretch objectives if you get through the first 3
 
@@ -13,7 +13,7 @@ you can checkout for help. Try and modify the version in the blog and implement
 something simpler here.
 * Be able to spin up a basic modal using [angular-modal-service](http://www.dwmkerr.com/the-only-angularjs-modal-service-youll-ever-need/) and bootstrap
 
-## Create a module and plug in ui-router
+## Create a module and add ui-router as a dependency
 
 Right now, all you've got is a basic Angular app. We haven't even created our first
 module yet. Let's do that real quick, this shouldn't be new to you.
@@ -46,12 +46,11 @@ optionally have routes, as well as other behavior, attached. Ok, but who cares, 
 
 Well, as an application gets more complex, you might want to nest some of your
 views, and it turns out UI-Router does this in a much simpler and more powerful way
-than ngRoute. UI-Router has become the sort of "go to" router for Angular.
+than ngRoute. UI-Router has become the sort of "go to" router for Angular devs.
 
-But don't take my word for it, try it out for yourself! Let's go to the
-[docs](https://github.com/angular-ui/ui-router) and get started.
+But don't take my word for it, try it out for yourself!
 
-#### Getting wired up
+#### Getting Wired Up
 
 1. Add the [cdn](http://cdnjs.com/libraries/angular-ui-router) to your index file.
 2. Add `ui.router` to your module's list of dependencies
@@ -105,14 +104,14 @@ the things we're missing. Let's go take care of it.
 
 #### Bringing it all together using $stateProvider
 
-What we're about to do next looks is almost exactly the same as how you've been
+What we're about to do next looks almost exactly the same as how you've been
 using ngRoute. With that in mind, where would you go to start hooking up some routes?
 
 Instead of injecting `$routeProvider` into our `config` callback, we're going to inject
 `$stateProvider`. Additionally, we're going to add a `state` property to our route.
 
 Go to step 5 in the [docs](https://github.com/angular-ui/ui-router#get-started).
-Apply what you see there and add the two routes we've already added to our navigation.
+Apply what you see there and add two routes to match our navigation menu.
 
 Instead of rendering templates though, just render `<h1>You did it! You're home!</h1>`
 and `<h1>What about it??</h1>` using the `template` property instead of `templateUrl`.
@@ -136,19 +135,21 @@ of just the simple html string.
 
 We can use UI Router's state attribute to define nested states. For example, what
 if we want to have a links on our About page that display different information?
-Turns out it's really easy. It's all here in step 5 in the [docs](https://github.com/angular-ui/ui-router#get-started) and be as simple or
-complex as you want it to be. I'll give you the simple version here and you
+Turns out it's really easy. It's all here in step 5 in the [docs](https://github.com/angular-ui/ui-router#get-started). These routes and states
+can be as simple or complex as you need them to be. I'll give you the simple version here and you
 can read the docs to explore more complex scenarios.
 
-1. Add a `Things` navigation link to your About page using `ui-sref`. Here your
-state will be nested, so you can use the dot notation to say so. `.things`
+1. Add a `Harry Potter Characters` navigation link or button to your About page
+using `ui-sref`. Here your state will be nested, so you can use the dot notation
+to say so. __example:__ `.potter`
 
-2. Add a nested state to your route and render `list.html`
+2. Add this nested state to your route and render `list.html` when a user visits
+that state.
  - Don't just copy and paste. Take a minute to actually read the code below and understand what's going on
 
 ```
-.state('about.things', {
-  url: "/things",
+.state('about.potter', {
+  url: "/potter",
   templateUrl: 'partials/list.html',
   controller: function($scope) {
         $scope.list = [
@@ -166,8 +167,8 @@ See what I did there? I was able to declare a variable on my list $scope called
 value to some named controller if I needed to, but I don't need to so I'm keeping
 simple.
 
-What we're going to do here is render the same `list.html` template but display
-different lists depending on which button is clicked.
+What we're going to do here is render the same `list.html` template for both
+of our states, but display different lists depending on which button is clicked.
 
 Now, in `list.html` use `ng-repeat` to iterate through the list and display the names.
 
@@ -192,7 +193,8 @@ and `/#/about/rings` (or whatever you named your states) respectively.
 #### Using UI Router's Authentication Property
 
 Sometimes, we want to restrict certain routes to certain users. While slightly
-more complicated that nested routing, UI Router makes this pretty painless as well.
+more complicated than nested routing, UI Router makes this pretty painless as well.
+Let's add authentication to our __About__ page.
 
 ##### 1. Let's start by adding the `authenticate` property to our `about` route.
 
@@ -208,7 +210,7 @@ more complicated that nested routing, UI Router makes this pretty painless as we
 
 Let's add a simple authentication service to our app. In this case, we're just
 going to create a simple function that picks a number between 0 and 10 and if the
-number is greater the 5 the person is authenticated. Imagine though, in a real
+number is 3 or 7 the person is authenticated. Imagine though, in a real
 scenario, your service would do something like check if the user is logged in etc.
 
 ```
@@ -224,7 +226,7 @@ app.factory('AuthService', function () {
   return {
     isAuthenticated: function () {
       var num = Math.floor((Math.random() * 10) + 1);
-      return num > 5;
+      return num === 3 || num === 7;
     }
   }
 })
@@ -234,10 +236,10 @@ app.factory('AuthService', function () {
 
 ##### 3. Tying it together using UI Router
 
-We could wrap this next part up in tidy directive, but let's just put it right in
+We could wrap this next part up in a tidy directive, but let's just put it right in
 our `app.js` to keep it simple.
 
-See if you can figure out this next part on your own by checking out the very last
+See if you can figure out this last part on your own by checking out the very last
 bit in this [blog post](https://medium.com/@mattlanham/authentication-with-angularjs-4e927af3a15f).
 All you need is the last part, you're 80% there!
 
