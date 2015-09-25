@@ -4,10 +4,17 @@ app.config(function ($stateProvider) {
   $stateProvider
     .state('home', {
       url: '/home',
-      template: "<h1>You did it!</h1>"
+      templateUrl: '/partials/home.html'
     })
     .state('about', {
       url: '/about',
-      template: '<h1>What about it??</h1>'
+      templateUrl: 'partials/about.html'
     })
+    .state('about.potter', {
+      url: "/potter",
+      templateUrl: 'partials/list.html',
+      controller: function($scope) {
+            $scope.list = ["Draco Malfoy", "Ernie Macmillan", "Irma Pince", "Rufus Scrimgeour "];
+          }
+      })
 })

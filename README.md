@@ -1,5 +1,7 @@
 ## Objectives
 
+
+* Be able to wire up UI-Router
 * Be able to display nested views using ui-router
 * Be able to implement authorization using ui-router
 * Be able to redirect to originally requested url after authorization
@@ -110,3 +112,62 @@ Instead of rendering templates though, just render `<h1>You did it! You're home!
 and `<h1>What about it??</h1>` using the `template` property instead of `templateUrl`.
 
 Also, we don't even need to add a controller yet, so skip it! Only write code you need.
+
+#### Nesting views
+
+Let's add some partials to the mix and dive in a little deeper.
+
+```
+mkdir partials
+touch partials/about.html
+touch partials/home.html
+touch partials/list.html
+```
+Now, using `templateUrl` update your routes so they render a partial instead
+of just the simple html string.
+
+##### Using dot notation to define a nested state and render nested templates
+
+We can use UI Router's state attribute to define nested states. For example, what
+if we want to have a links on our About page that display different information?
+Turns out it's really easy. It's all here in step 5 in the [docs](https://github.com/angular-ui/ui-router#get-started) and be as simple or
+complex as you want it to be. I'll give you the simple version here and you
+can read the docs to explore more complex scenarios.
+
+1. Add a `Things` navigation link to your About page using `ui-sref`. Here your
+state will be nested, so you can use the dot notation to say so. `.things`
+
+2. Add a nested state to your route and render `list.html`
+ - Don't just copy and paste. Take a minute to actually read the code below and understand what's going on
+
+```
+.state('about.things', {
+  url: "/things",
+  templateUrl: 'partials/list.html',
+  controller: function($scope) {
+        $scope.list = [
+        "Draco Malfoy",
+        "Ernie Macmillan",
+        "Irma Pince",
+        "Rufus Scrimgeour"
+        ];
+      }
+  })
+
+```
+See what I did there? I was able to declare a variable on my list $scope called
+`list` and set it's value to an array of values. I could also set the controller
+value to some named controller if I needed to, but I don't need to so I'm keeping
+simple.
+
+What we're going to do here is render the same `list.html` template but display
+different lists depending on which button is clicked.
+
+Now, in `list.html` use `ng-repeat` to iterate throug the list and display the names.
+
+Ok, go check your view and confirm that everything is working as it should. The
+user should be able to click a link or button and see the list of values displayed.
+Click around your app and confirm that the other routes are still working.
+
+Ok, now go do that again, but add a new link or button that displays a different
+list but still renders the same `list.html` template. You got this!
